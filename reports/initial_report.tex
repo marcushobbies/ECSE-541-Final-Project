@@ -30,8 +30,21 @@ The training and inference process moved from FP32 to 16-bit formats, and more r
 
 Most other evaluations of MX formats have measured accuracy at the model level. Yang et al. \cite{11038348} evaluated MX formats for LLM training while Rouhani et al. \cite{rouhani2023microscalingdataformatsdeep} evaluated the formats for various LLM and deep learning benchmarks. Since these results report overall model behavior, they do not show how much accuracy depends on the element encoding alone, or how often the runtime rule selects the encoding with the lower error. This work will make the comparisons under controlled conditions for MXFP4 and MXFFP4 while measuring the CPU cost of the extra formatting decision.
 
-\section{Approach}
+\section{Methodology}
 
+We use gem5 and McPAT to investigate how core type and core count affect performance and power across workloads at comparable chip areas. We first simulate multicore configurations with varying numbers of Cortex-A8 or Cortex-A9 cores in gem5, recording the simulated execution time and runtime activity statistics for each benchmark. We then pass the processor configuration and activity statistics to McPAT to estimate chip area and runtime power. Finally, we pair Cortex-A8 and Cortex-A9 configurations with similar estimated areas and compare their execution time and power for each workload.
+
+\subsection{Performance Simulation with gem5}
+
+We configure an in-order core model based on the Cortex-A8 and an out-of-order core model based on the Cortex-A9 in gem5. To validate these models, we reproduce the benchmark runs described in \textcolor{red}{[TODO]}, compare our simulation results with the corresponding published results, and report the relative error.
+
+For the multicore experiments, we construct candidate processor configurations by varying the core type and core count. For each benchmark, we use the same input and amount of work across configurations. We use simulated execution time as the performance metric and collect runtime activity statistics, such as instruction counts and cache accesses, for estimating runtime dynamic power in McPAT.
+
+\subsection{Area and Power Estimation with McPAT}
+
+For each processor configuration and benchmark combination, we generate a McPAT XML input file. We map parameters from the gem5 configuration, such as core count, clock frequency, and cache capacity, to their corresponding XML fields and specify additional modeling parameters, such as the process technology node. We also populate the XML file with runtime activity statistics from the corresponding simulation. McPAT uses the hardware configuration to estimate chip area and combines it with the activity statistics to estimate runtime power for the workload.
+
+We use McPAT's area estimates to pair Cortex-A8 and Cortex-A9 configurations with similar chip areas and report the estimated area difference for each pair. For each workload, we compare the simulated execution time and estimated power of the paired configurations. This comparison shows which workloads run faster on configurations with more Cortex-A8 cores, which run faster on configurations with fewer Cortex-A9 cores, and how their power consumption differs at comparable chip areas.
 
 \section{Experimental Setup}
 
