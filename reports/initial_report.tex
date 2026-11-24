@@ -21,8 +21,11 @@
 
 \section{Introduction}
 \label{sec:intro}
-This is the intro.
+In a multiprocessor system-on-chip (MPSoC), silicon area devoted to improving the performance of each core reduces the area available for additional cores. Replicating cores can shorten execution time when a workload exposes sufficient thread-level parallelism, but it does little for serial regions. A more capable core can accelerate those regions by exploiting instruction-level parallelism within a single thread. As Hill and Marty show, the value of allocating chip resources to either strategy depends on the workload's balance of serial and parallel execution~\cite{4563876}.
 
+This project investigates that trade-off using two families of homogeneous multicore configurations based on the ARM Cortex-A8 and Cortex-A9. The Cortex-A8 uses in-order instruction issue, whereas the Cortex-A9 supports out-of-order execution: a ready instruction can proceed while an older instruction waits for an operand. This capability can improve single-thread performance, but the hardware required for dynamic instruction scheduling also consumes area and power. We therefore ask which workloads complete sooner on a larger number of A8 cores, which benefit more from fewer A9 cores, and how the two configurations differ in runtime power when their estimated chip areas are comparable.
+
+We will model both cores in gem5 using the microarchitectural descriptions published by Endo et al.~\cite{6893220} and assess timing accuracy by reporting the relative error against their published benchmark results. We will then vary the core count within each family and run standardized benchmarks, holding the input and total work constant across configurations for each benchmark. Using the processor configurations and simulated activity statistics, we will estimate chip area and runtime power with McPAT~\cite{5375438}. For each pair of configurations with similar estimated areas, we will report the area difference and compare simulated execution time and estimated power. This comparison will identify where allocating area to additional cores is more effective than allocating it to stronger individual cores, and at what power cost.
 
 \section{Related Work}
 
