@@ -8,7 +8,7 @@
 \crefname{equation}{}{}
 \Crefname{equation}{Equation}{Equations}
 
-\title{ECSE541 Initial Report}
+\title{Accuracy and Efficiency of MXFFP4: Initial Report}
 
 \author{\IEEEauthorblockN{Ryan Edrissi, Yuchen Niu, Peng Peng, Trevor Piltch, Marcus Porfilio}
 \IEEEauthorblockA{Department of Electrical and Computer Engineering, McGill University\\
@@ -19,10 +19,6 @@
 
 \maketitle
 
-\begin{abstract}
-\end{abstract}
-
-
 \section{Introduction}
 \label{sec:intro}
 This is the intro.
@@ -30,12 +26,19 @@ This is the intro.
 
 \section{Related Work}
 
+The training and inference process moved from FP32 to 16-bit formats, and more recently Micikevicius et al. \cite{micikevicius2022fp8formatsdeeplearning} used two eight bit floating-point encodings to trade precision for range. However, for precision below eight bits, the per-tensor scale has been shown to be insufficient due to the low dynamic range of the format \cite{drumond2018trainingdnnshybridblock}. Drumond et al. showed that block-scaled formats which use a scale factor among a small group of elements are more effective. This is an approach standardized by the Open Compute Project Microscaling (MX) spec \cite{opencompute}, with 32 elements sharing an 8-bit power of two scale, stored in some narrow format (such as FP4). Kim et al. \cite{11617481} expands this to include an extra bit per block to choose between E1M2 and E2M1. They then use a runtime algorithm to determine which encoding to use and evaluate the format on LLMs.
+
+Most other evaluations of MX formats have measured accuracy at the model level. Yang et al. \cite{11038348} evaluated MX formats for LLM training while Rouhani et al. \cite{rouhani2023microscalingdataformatsdeep} evaluated the formats for various LLM and deep learning benchmarks. Since these results report overall model behavior, they do not show how much accuracy depends on the element encoding alone, or how often the runtime rule selects the encoding with the lower error. This work will make the comparisons under controlled conditions for MXFP4 and MXFFP4 while measuring the CPU cost of the extra formatting decision.
+
 \section{Approach}
+
 
 \section{Experimental Setup}
 
 \section{Conclusion}
 
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
 
 \end{document}
 
