@@ -20,30 +20,21 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{micikevicius2022fp8formatsdeeplearning}
+\bibitem{4563876}
+M.~D. Hill and M.~R. Marty, ``Amdahl's law in the multicore era,'' \emph{Computer}, vol.~41, no.~7, pp. 33--38, 2008.
+
+\bibitem{1253185}
+R.~Kumar, K.~Farkas, N.~Jouppi, P.~Ranganathan, and D.~Tullsen, ``Single-isa heterogeneous multi-core architectures: the potential for processor power reduction,'' in \emph{Proceedings. 36th Annual IEEE/ACM International Symposium on Microarchitecture, 2003. MICRO-36.}, 2003, pp. 81--92.
+
+\bibitem{10.1145/2024716.2024718}
 \BIBentryALTinterwordspacing
-P.~Micikevicius, D.~Stosic, N.~Burgess, M.~Cornea, P.~Dubey, R.~Grisenthwaite, S.~Ha, A.~Heinecke, P.~Judd, J.~Kamalu, N.~Mellempudi, S.~Oberman, M.~Shoeybi, M.~Siu, and H.~Wu, ``Fp8 formats for deep learning,'' 2022. [Online]. Available: \url{https://arxiv.org/abs/2209.05433}
+N.~Binkert, B.~Beckmann, G.~Black, S.~K. Reinhardt, A.~Saidi, A.~Basu, J.~Hestness, D.~R. Hower, T.~Krishna, S.~Sardashti, R.~Sen, K.~Sewell, M.~Shoaib, N.~Vaish, M.~D. Hill, and D.~A. Wood, ``The gem5 simulator,'' \emph{SIGARCH Comput. Archit. News}, vol.~39, no.~2, p. 1–7, Aug. 2011. [Online]. Available: \url{https://doi.org/10.1145/2024716.2024718}
 \BIBentrySTDinterwordspacing
 
-\bibitem{drumond2018trainingdnnshybridblock}
-\BIBentryALTinterwordspacing
-M.~Drumond, T.~Lin, M.~Jaggi, and B.~Falsafi, ``Training dnns with hybrid block floating point,'' 2018. [Online]. Available: \url{https://arxiv.org/abs/1804.01526}
-\BIBentrySTDinterwordspacing
+\bibitem{6893220}
+F.~A. Endo, D.~Couroussé, and H.-P. Charles, ``Micro-architectural simulation of in-order and out-of-order arm microprocessors with gem5,'' in \emph{2014 International Conference on Embedded Computer Systems: Architectures, Modeling, and Simulation (SAMOS XIV)}, 2014, pp. 266--273.
 
-\bibitem{opencompute}
-\BIBentryALTinterwordspacing
- [Online]. Available: \url{https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf/}
-\BIBentrySTDinterwordspacing
-
-\bibitem{11617481}
-S.~Kim, S.~Kim, D.~Ha, H.~Lee, J.~Kim, S.~Lee, M.~Jung, M.~Annavaram, and W.~W. Ro, ``Mxffp: Microscaling flexible floating point format for large-scale ai model acceleration,'' in \emph{2026 ACM/IEEE 53rd Annual International Symposium on Computer Architecture (ISCA)}, 2026, pp. 2505--2519.
-
-\bibitem{11038348}
-H.~Yang, S.~Deng, A.~Nagpal, M.~Naumov, M.~Janani, T.~Liu, and H.~Guan, ``An empirical study of microscaling formats for low-precision llm training,'' in \emph{2025 IEEE 32nd Symposium on Computer Arithmetic (ARITH)}, 2025, pp. 1--8.
-
-\bibitem{rouhani2023microscalingdataformatsdeep}
-\BIBentryALTinterwordspacing
-B.~D. Rouhani, R.~Zhao, A.~More, M.~Hall, A.~Khodamoradi, S.~Deng, D.~Choudhary, M.~Cornea, E.~Dellinger, K.~Denolf, S.~Dusan, V.~Elango, M.~Golub, A.~Heinecke, P.~James-Roxby, D.~Jani, G.~Kolhe, M.~Langhammer, A.~Li, L.~Melnick, M.~Mesmakhosroshahi, A.~Rodriguez, M.~Schulte, R.~Shafipour, L.~Shao, M.~Siu, P.~Dubey, P.~Micikevicius, M.~Naumov, C.~Verrilli, R.~Wittig, D.~Burger, and E.~Chung, ``Microscaling data formats for deep learning,'' 2023. [Online]. Available: \url{https://arxiv.org/abs/2310.10537}
-\BIBentrySTDinterwordspacing
+\bibitem{5375438}
+S.~Li, J.~H. Ahn, R.~D. Strong, J.~B. Brockman, D.~M. Tullsen, and N.~P. Jouppi, ``Mcpat: An integrated power, area, and timing modeling framework for multicore and manycore architectures,'' in \emph{2009 42nd Annual IEEE/ACM International Symposium on Microarchitecture (MICRO)}, 2009, pp. 469--480.
 
 \end{thebibliography}

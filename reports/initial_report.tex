@@ -8,7 +8,7 @@
 \crefname{equation}{}{}
 \Crefname{equation}{Equation}{Equations}
 
-\title{Accuracy and Efficiency of MXFFP4: Initial Report}
+\title{ECSE541 Initial Report}
 
 \author{\IEEEauthorblockN{Ryan Edrissi, Yuchen Niu, Peng Peng, Trevor Piltch, Marcus Porfilio}
 \IEEEauthorblockA{Department of Electrical and Computer Engineering, McGill University\\
@@ -26,6 +26,9 @@ This is the intro.
 
 \section{Related Work}
 
+Hill and Marty \cite{4563876} extended Amdahl's law to multicore chips with a fixed area budget. Their analysis assumes that a core's sequential performance grows roughly with the square root of the resources devoted to it. Under this assumption, spending resources on a few larger cores speeds up the sequential part of a program, while spending them on many small cores speeds up the parallel part. However, their analysis treats cores as abstract units of area and performance, and does not consider power. Kumar et al. \cite{1253185} approached the same trade-off problem by combining cores of different sizes that share one instruction set, allowing each workload to run on the core type that fits it best and reducing power.
+
+Measuring this trade-off for real core designs requires detailed simulations. gem5 \cite{10.1145/2024716.2024718} is a cycle-level simulator that provides both in-order and out-of-order CPU models. Endo et al. \cite{6893220} used gem5 to model an ARM Cortex-A8 (in-order) and Cortex-A9 (out-of-order) and validated them by comparing simulated results and measurements from hardware. Their work focused on the accuracy of the simulations, and not on comparing the two cores. To estimate the power and area of these processors, McPAT \cite{5375438} is used to model the processor's microarchitecture. Given activity statistics from the simulator, McPAT reports chip area, timing, and dynamic and leakage power. This work rebuilds the A8 and A9 models from Endo et al., validates them against the published results, and uses McPAT to compare configurations of comparable area so the trade-off can be measured on standard benchmarks.
 
 \section{Methodology}
 
