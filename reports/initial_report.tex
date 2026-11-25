@@ -4,6 +4,7 @@
 \usepackage{siunitx}
 \robustify\bfseries
 \usepackage{booktabs}
+\usepackage{hyperref}
 \usepackage[capitalize,nameinlink]{cleveref}
 \crefname{equation}{}{}
 \Crefname{equation}{Equation}{Equations}
@@ -21,9 +22,9 @@
 
 \section{Introduction}
 \label{sec:intro}
-In a multiprocessor system-on-chip (MPSoC), silicon die area devoted to improving the performance of each core reduces the area available for additional cores. Additional cores can shorten execution time when a workload exposes sufficient thread-level parallelism, but it does little for software that does not. A more capable core can accelerate single-threaded workloads by exploiting instruction-level parallelism within a single thread. As Hill and Marty show, the value of allocating chip resources to either strategy depends on the workload's balance of serial and parallel execution~\cite{4563876}.
+In a multiprocessor system-on-chip (MPSoC), the silicon die area devoted to improving the performance of each core reduces the area available for additional cores. Additional cores can shorten execution time when a workload exposes sufficient thread-level parallelism, but they do little for software that does not. A more capable core can accelerate single-threaded workloads by exploiting instruction-level parallelism within a single thread. As Hill and Marty show, the value of allocating chip resources to either strategy depends on the workload's balance of serial and parallel execution~\cite{4563876}.
 
-This project investigates that trade-off using two families of homogeneous multicore configurations based on the ARM Cortex-A8 and Cortex-A9. The Cortex-A8 is fully in-order, whereas the Cortex-A9 supports out-of-order execution: a ready instruction can proceed while an older instruction waits for an operand. This capability can improve single-thread performance, but the hardware required for dynamic instruction scheduling has an area and power cost. We therefore ask which workloads complete sooner on a larger number of A8 cores, which benefit more from fewer A9 cores, and how the two configurations differ in runtime power when their estimated chip areas are comparable.
+This project investigates that trade-off using two families of homogeneous multicore configurations based on the ARM Cortex-A8 and Cortex-A9. The Cortex-A8 is fully in-order, whereas the Cortex-A9 supports out-of-order execution: a ready instruction can proceed while an older instruction waits for an operand. This capability can improve single-thread performance, but the hardware required for dynamic instruction scheduling has an area and power cost. We therefore ask when it is best to trade more cores for highly optimized cores, and which workloads are most effected by the exchange.
 
 We will model both cores in gem5 using the microarchitectural descriptions published by Endo et al.~\cite{6893220} and assess the accuracy of our models by reporting the relative error against their published benchmark results. We will then vary the core count within each family and run standardized benchmarks. Each benchmark uses the same inputs and parameters across runs to minimize variance. Using the processor configurations and simulated activity statistics, we will estimate chip area and runtime power with McPAT~\cite{5375438}. For each pair of configurations with similar estimated areas, we will report the area difference and compare simulated execution time and estimated power. The goal is to identify when allocating area to additional cores is more effective than allocating it to stronger individual cores, and at what power cost.
 
@@ -39,20 +40,43 @@ We use gem5 and McPAT to investigate how core type and core count affect perform
 
 \subsection{Performance Simulation with gem5}
 
-We configure an in-order core model based on the Cortex-A8 and an out-of-order core model based on the Cortex-A9 in gem5. To validate these models, we reproduce the benchmark runs described in \textcolor{red}{[TODO]}, compare our simulation results with the corresponding published results, and report the relative error.
+We first configure an in-order core model based on the Cortex-A8 and an out-of-order core model based on the Cortex-A9 in gem5. To validate these models, we reproduce the benchmark runs described in \hyperref[sec:bench]{Section IV-C}, compare our simulation results with the corresponding published results, and report the relative error.
 
-For the multicore experiments, we construct candidate processor configurations by varying the core type and core count. For each benchmark, we use the same input and amount of work across configurations. We use simulated execution time as the performance metric and collect runtime activity statistics, such as instruction counts and cache accesses, for estimating runtime dynamic power in McPAT.
+For the multi-core experiments, we construct candidate processor configurations by varying the core count and processor features. For each benchmark, we use the same input and amount of work across configurations. We use simulated execution time as the performance metric and collect runtime activity statistics, such as instruction counts and cache accesses, for estimating runtime dynamic power in McPAT.
+
+Given the short time-frame of the project and potential errors in task length estimations, we have made a priority list of processor features to include in our comparison. They are, from most important to least important:
+\begin{enumerate}
+    \item Out-of-Order execution
+    \item Branch prediction
+    \item Pipeline stages
+    \item Instruction width
+\end{enumerate}
 
 \subsection{Area and Power Estimation with McPAT}
 
-For each processor configuration and benchmark combination, we generate a McPAT XML input file. We map parameters from the gem5 configuration, such as core count, clock frequency, and cache capacity, to their corresponding XML fields and specify additional modeling parameters, such as the process technology node. We also populate the XML file with runtime activity statistics from the corresponding simulation. McPAT uses the hardware configuration to estimate chip area and combines it with the activity statistics to estimate runtime power for the workload.
+For each processor configuration and benchmark combination, we generate a McPAT XML input file. We map parameters from the gem5 configuration, such as core count, clock frequency, and method of branch prediction, to their corresponding XML fields and specify additional modeling parameters, such as the process technology node. We also populate the XML file with runtime activity statistics from the corresponding simulation. McPAT uses the hardware configuration to estimate chip area and combines it with the activity statistics to estimate runtime power for the workload.
 
-We use McPAT's area estimates to pair Cortex-A8 and Cortex-A9 configurations with similar chip areas and report the estimated area difference for each pair. For each workload, we compare the simulated execution time and estimated power of the paired configurations. This comparison shows which workloads run faster on configurations with more Cortex-A8 cores, which run faster on configurations with fewer Cortex-A9 cores, and how their power consumption differs at comparable chip areas.
+We then use McPAT's area estimates to pair Cortex-A8 and Cortex-A9 configurations with similar chip areas and report the estimated area difference for each pair. In cases where the difference in area is large enough, the processor with a smaller area is given additional cores to compensate. For each workload, we compare the simulated execution time and estimated power of the paired configurations. This comparison shows which workloads run faster on configurations with more cores, fewer but highly optimized cores, and how their power consumption differs at comparable chip areas. 
 
 \section{Experimental Setup}
+The primary objective of our experiment is to evaluate the trade-offs of expensive single-core optimizations against using that same die area for additional simpler cores. In order to do this, we use a combination of McPat and gem5 to benchmark different versions of the same processor. When comparing between optimized and unoptimized versions, all specifications of the processor that would otherwise be identical between cores, such as the cache hierarchy or core frequency would be the same, with only modifications being made that directly affect the single-threaded performance of each core.
+
+\subsection{Simulation accuracy}
+To ensure that our models reflect the performance of real-life processors, we first construct models of the ARM Cortex-A9 and Cortex-A8 processors according to the specifications found in the paper published by Endo et al.~\cite{6893220} We would then benchmark our models using the same benchmarks used in that paper, and compare that the results are similar. Since Endo et al. determined that their models had an accuracy of around 7\%~\cite{6893220} compared to their real-life counterparts, we could confirm that our models are similarly accurate.
+
+\subsection{Modifying cores}
+Once we have determined that our models are accurate simulations of their real-life counter-parts, we can create copies of our models which can then have their single-threaded performance optimized using a variety of techniques. For instance, we can change either processor to perform in-order or out-of-order execution. Once all optimizations are in place, we can then use McPat to determine the increase in die-area used by the optimized cores, and appropriately increase the number of cores in the non-optimized version of the processors to compensate. The gem5 simulator can then run multiple benchmarks on both versions of either processor and we can compare the results.
+
+\subsection{Benchmarks}
+\label{sec:bench}
+To evaluate our models, we intend to use PARSEC 3.0, a benchmark suite designed explicitly for multiprocessors.~\cite{Bienia2011} We would only use 10 of the 13 available benchmarks in PARSEC, as Endo et al. only used 10 of them in their research due to factors that either prevented from using them on the ARM platform, or for the sake of time.~\cite{6893220} For the same reasons, we will only use those same 10 benchmarks when comparing to Endo et al.'s results while evaluating our models' accuracy.
+
+When comparing our optimized single-core vs unoptimized many-core versions of the processors, we first intend to use the same PARSEC 3.0 benchmarks so we can compare our optimizations to our baseline results. It is important that the different versions of the processors use the same cache hierarchy as to minimize the variance outside of the single-threaded optimizations.
+
+Once we have the results from our benchmarking suite, we can use the area estimates from the McPat models to determine the ratio of performance to die area used. Using the ratio gives us an indication of which processor is using the die area more effectively.
 
 \section{Conclusion}
-
+To summarize, we aim to explore the relationship between single-threaded optimizations and scaling with more cores, in terms of performance, area, and power. To this end, we use the gem5 simulator to model our different CPU configurations and run benchmarks on them, and we use McPat to see the effect of each configuration on silicon die area and power.
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
