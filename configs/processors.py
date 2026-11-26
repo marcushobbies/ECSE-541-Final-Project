@@ -12,13 +12,13 @@ class ArmA9O3(ArmO3CPU):
         self.decodeWidth = 8
         self.renameWidth = 8
         self.dispatchWidth = 8
-        self.issueWidth = 8
+        self.issueWidth = 2
         self.wbWidth = 8
         self.commitWidth = 8
 
-        self.numROBEntries = 256
-        self.numPhysIntRegs = 512
-        self.numPhysFloatRegs = 512
+        self.numROBEntries = 40
+        self.numPhysIntRegs = 62
+        self.numPhysFloatRegs = 256
 
 class ArmA9Core(BaseCPUCore):
     def __init__(self):
@@ -29,6 +29,6 @@ class ArmA9Processor(BaseCPUProcessor):
     def __init__(self):
         core_list = [ArmA9Core()]
         super().__init__(
-            clk_freq="3GHz",
+            clk_freq="800MHz",
             cores = core_list
         )

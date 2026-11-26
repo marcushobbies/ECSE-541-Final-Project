@@ -1,4 +1,5 @@
 from gem5.isas import ISA
+from gem5.components.boards.simple_board import SimpleBoard
 from gem5.components.boards.arm_board import ArmBoard
 from gem5.components.cachehierarchies.classic.private_l1_shared_l2_cache_hierarchy import PrivateL1SharedL2CacheHierarchy
 from gem5.components.memory.single_channel import SingleChannelDDR4_2400
@@ -27,12 +28,12 @@ from processors import ArmA9Processor
 processor = ArmA9Processor()
 
 cache = PrivateL1SharedL2CacheHierarchy(
-    l1d_size = "16KiB",
-    l1i_size = "16KiB",
-    l2_size = "256KiB",
-    l1d_assoc = 8,
-    l1i_assoc = 8,
-    l2_assoc = 16
+    l1d_size = "32KiB",
+    l1i_size = "32KiB",
+    l2_size = "512KiB",
+    l1d_assoc = 4,
+    l1i_assoc = 4,
+    l2_assoc = 8
 )
 
 memory = SingleChannelDDR4_2400(
@@ -40,8 +41,8 @@ memory = SingleChannelDDR4_2400(
 )
 
 
-board = ArmBoard(
-    clk_freq="3GHz",
+board = SimpleBoard(
+    clk_freq="800MHz",
     processor = processor,
     cache_hierarchy = cache,
     memory = memory
@@ -49,10 +50,8 @@ board = ArmBoard(
 
 print("Setting workload...")
 
-workload = board.set_kernel_disk_workload(
-    kernel=obtain_resource(resource_id="arm64-linux-kernel-6.8.12"),
-    disk_image=obtain_resource(resource_id="arm-ubuntu-24.04-img"),
-)
+#board.set_workload(obtain_resource("arm-ubuntu-24.04-npb-sp-s", resource_version="2.0.0"))
+board.set_se_binary_workload(obtain_resource(resource_id="arm-npb-cg-size-s"))
 
 def exit_event_handler():
     print('first exit event: Kernel booted')
