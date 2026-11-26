@@ -1,0 +1,55 @@
+NAS Parallel Benchmarks (NPB3.3-SER) - LU Benchmark
+
+ Size:   12x  12x  12
+ Iterations:   50
+
+src/sim/mem_state.cc:443: info: Increasing stack size by one page.
+ Time step    1
+ Time step   20
+ Time step   40
+ Time step   50
+
+ Verification being performed for class S
+ Accuracy setting for epsilon =  0.1000000000000E-07
+ Comparison of RMS-norms of residual
+           1   0.1619634321098E-01 0.1619634321098E-01 0.1092479902684E-13
+           2   0.2197674516484E-02 0.2197674516482E-02 0.9955614298964E-12
+           3   0.1517992765340E-02 0.1517992765340E-02 0.1228482624723E-12
+           4   0.1502958443600E-02 0.1502958443599E-02 0.6371216468540E-12
+           5   0.3426407315590E-01 0.3426407315590E-01 0.1863112526800E-13
+ Comparison of RMS-norms of solution error
+           1   0.6422331995794E-03 0.6422331995796E-03 0.2983005612348E-12
+           2   0.8414434204736E-04 0.8414434204735E-04 0.1193475684556E-12
+           3   0.5858826961645E-04 0.5858826961649E-04 0.6194698693361E-12
+           4   0.5847422259517E-04 0.5847422259516E-04 0.1571395566117E-12
+           5   0.1310334791411E-02 0.1310334791411E-02 0.6304969240298E-13
+ Comparison of surface integral
+               0.7841892886594E+01 0.7841892886594E+01 0.0000000000000E+00
+ Verification Successful
+
+
+ LU Benchmark Completed.
+ Class           =                        S
+ Size            =             12x  12x  12
+ Iterations      =                       50
+ Time in seconds =                     0.10
+ Mop/s total     =                  1070.31
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                    3.3.1
+ Compile date    =              13 Feb 2024
+
+ Compile options:
+    F77          = gfortran
+    FLINK        = $(F77)
+    F_LIB        = (none)
+    F_INC        = (none)
+    FFLAGS       = -O3 -mcmodel=small 
+    FLINKFLAGS   = -O3 -mcmodel=small -static
+    RAND         = (none)
+
+
+ Please send all errors/feedbacks to:
+
+ NPB Development Team
+ npb@nas.nasa.gov
